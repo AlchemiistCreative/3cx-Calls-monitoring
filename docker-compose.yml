@@ -2,11 +2,11 @@ version: "3"
 
 services:
   security:
-    image: node:latest
+    build: ./src
     ports:
      - "3000:3000"
     working_dir: /app/api
-    command: start.sh
+    command: /bin/sh -c /app/api/start.sh
     depends_on:
      - db
     volumes:
