@@ -1,0 +1,32 @@
+version: "3"
+
+services:
+  security:
+    image: node:latest
+    ports:
+     - "3000:3000"
+    working_dir: /app/api
+    command: npm start
+    depends_on:
+     - db
+    volumes:
+     - ./app/api:/app/api
+  db:
+    image: mariadb:latest
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: prootexample
+      MYSQL_DATABASE: 3cxmon
+      MYSQL_USER: uexample
+      MYSQL_PASSWORD: pexample
+    ports:
+     - "3306:3306"
+    volumes:
+     - './database-service/db:/var/lib/mysql'
+     - './database-service/dump:/docker-entrypoint-initdb.d'
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+
+
