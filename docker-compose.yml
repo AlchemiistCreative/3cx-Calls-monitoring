@@ -6,7 +6,7 @@ services:
     ports:
      - "3000:3000"
     working_dir: /app/api
-    command: npm start
+    command: start.sh
     depends_on:
      - db
     volumes:
