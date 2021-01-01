@@ -51,7 +51,8 @@ function api(){
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'charset': 'UTF-8'
+        'charset': 'UTF-8',
+        'User-Agent': 'request'
       },
       json: data,
       jar: cookiejar
