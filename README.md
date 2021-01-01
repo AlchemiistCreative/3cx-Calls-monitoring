@@ -3,7 +3,7 @@
 
 ## Usage
 
-#### Add your 3cx instance and credentials in dotenv file **/app/api/.env**.
+##### Add your 3cx instance and credentials in dotenv file **/app/api/.env**.
 
 ### Deploy this project with docker-compose : 
 
