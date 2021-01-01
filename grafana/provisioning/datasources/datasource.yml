@@ -1,0 +1,19 @@
+# config file version
+apiVersion: 1
+
+# list of datasources that should be deleted from the database
+deleteDatasources:
+  - name: mysql
+    orgId: 1
+
+# list of datasources to insert/update depending
+# whats available in the database
+datasources:
+  # <string, required> name of the datasource. Required
+  - name: mysql
+    type: mysql
+    url: db:3306
+    database: 3cxmon
+    user: root
+    secureJsonData:
+      password: prootexample

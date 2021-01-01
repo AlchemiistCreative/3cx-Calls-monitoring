@@ -1,12 +1,10 @@
 version: "3"
 
 services:
-  security:
-    build: ./app
-    ports:
-     - "3000:3000"
+  nodejs:
+    image: node:12
     working_dir: /app/api
-    command: /bin/sh -c /app/api/start.sh
+    command: bash -c "chmod +x /app/api/start.sh && /bin/sh -c /app/api/start.sh"
     depends_on:
      - db
     volumes:
@@ -29,4 +27,17 @@ services:
       timeout: 20s
       retries: 10
 
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    env_file:
+      - './grafana/env.grafana'
+    user: "0"
+    links:
+      - db
+    volumes:
+      - ./grafana/data:/var/lib/grafana
+      - ./grafana/provisioning/:/etc/grafana/provisioning/
 

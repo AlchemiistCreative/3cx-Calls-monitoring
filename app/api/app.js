@@ -2,12 +2,13 @@
 const rp = require('request-promise');
 var tough = require('tough-cookie');
 const mysql = require('mysql');
+require('dotenv').config();
 
 let connection = mysql.createConnection({
-    host     : 'db',
-    user     : 'root',
-    password : 'prootexample',
-    database : '3cxmon'
+    host     : process.env.SQL_HOST,
+    user     : process.env.SQL_USER,
+    password : process.env.SQL_PASSWORD,
+    database : process.env.SQL_DB
   });
   
   connection.connect();
@@ -15,10 +16,10 @@ let connection = mysql.createConnection({
 
 
 function api(){
-    const username = "admin"
-    const password = "8b6r4VITqM551bQh"
-    const instance = "https://alchemist.my3cx.be"
-    const domain = "alchemist.my3cx.be"
+    const username = process.env.USERNAME
+    const password = process.env.PASSWORD
+    const instance = process.env.INSTANCE
+    const domain = process.env.DOMAIN
     const path_login = "/api/login"
     const path_logout = "/api/logout"
 
@@ -39,7 +40,7 @@ function api(){
     
     var cookiejar = rp.jar();
     
-    cookiejar.setCookie(cookie, instance);    
+    cookiejar.setCookie(cookie.toString(), instance);    
         
     
     console.log(data);
@@ -78,7 +79,7 @@ function api(){
   .then(function (parsedBody_req_login) {
 
      if(parsedBody_req_login == 'AuthSuccess'){
-        console.log(parsedBody_req_login);
+        //console.log(parsedBody_req_login);
         rp(options_res)
         .then(function (parsedBody_res) {
 
@@ -98,8 +99,10 @@ function api(){
                
                 console.log(i['Caller'])
 
-                if(i['Caller'] == strext || i['Callee'] == strext){
+               
 
+                if(i['Caller'].includes(strext) || i['Callee'].includes(strext)){
+                    
                     ext_call++;
 
                 }else{
@@ -112,15 +115,12 @@ function api(){
             }
 
 
-            connection.query('INSERT INTO pbxdb SET dates = ?,externalcall = ?, internalcall = ?', [Date.now(),ext_call ,int_call], (err, result) => {
+            connection.query('INSERT INTO pbxdb SET dates = NOW(),externalcall = ?, internalcall = ?', [ext_call ,int_call], (err, result) => {
                 if (err) throw err
-    
-                cb(result);
-    
             });
 
-
-            console.log(int_call);
+            console.log('External call:' + ext_call);
+            console.log('Internal call:' + int_call);
             rp(options_req_logout)
             .then(function (parsedBody_req_logout) {
             
@@ -144,7 +144,7 @@ function api(){
   }); 
 
 
-  
+  setTimeout(api, 5000);
 
 
   }

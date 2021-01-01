@@ -2,9 +2,9 @@
 
 CREATE TABLE pbxdb 
 (
-  dates varchar(255),
-  externalcall varchar(255),
-  internalcall varchar(255)
+  dates TIMESTAMP,
+  externalcall INTEGER,
+  internalcall INTEGER
 ); 
 
 
