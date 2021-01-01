@@ -10,3 +10,4 @@ Add your 3cx instance and credentials in dotenv file **/app/api/.env**.
 ```sh
 docker-compose up -d
 ```
+### Wait some minutes and you can go to Grafana with **your-ip:3000**.
