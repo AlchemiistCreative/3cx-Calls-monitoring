@@ -52,7 +52,7 @@ function api(){
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         'charset': 'UTF-8',
-        'User-Agent': 'request'
+        'User-Agent': 'Request-Promise'
       },
       json: data,
       jar: cookiejar
@@ -63,7 +63,8 @@ function api(){
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
-          'charset': 'UTF-8'
+          'charset': 'UTF-8',
+          'User-Agent': 'Request-Promise'
         },
         json: {},
         jar: cookiejar
@@ -71,7 +72,10 @@ function api(){
 
     var options_res = {
         uri: instance + '/api/activeCalls',
-        jar: cookiejar
+        jar: cookiejar,
+        headers: {
+          'User-Agent': 'Request-Promise'
+        }
     };
 
 
