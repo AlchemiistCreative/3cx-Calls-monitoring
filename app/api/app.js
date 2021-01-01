@@ -20,9 +20,11 @@ function api(){
     const password = process.env.PASSWORD
     const instance = process.env.INSTANCE
     const domain = process.env.DOMAIN
+    const interval = process.env.INTERVAL
     const path_login = "/api/login"
     const path_logout = "/api/logout"
-
+    const key = "keyexample"
+    const value = "valueexample"
     const data = 	
         {
           "username": `${username}`,
@@ -30,11 +32,12 @@ function api(){
         }
       
     let cookie = new tough.Cookie({
-        key: "some_key",
-        value: "some_value",
+        key: key.toString('base64'),
+        value: value.toString('base64'),
         domain: domain,
         httpOnly: true,
-        maxAge: 31536000
+        maxAge: 31536000,
+        headers: {'User-Agent': 'Request-Promise'}
         });
     
     
@@ -43,28 +46,27 @@ function api(){
     cookiejar.setCookie(cookie.toString(), instance);    
         
     
-    console.log(data);
+    //console.log(data);
   
     var options_req_login = {
       method: 'POST',
-      url: instance + path_login,
+      uri: instance + path_login,
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'charset': 'UTF-8',
-        'User-Agent': 'Request-Promise'
+        'charset': 'UTF-8'
       },
       json: data,
       jar: cookiejar
     }
+    
     var options_req_logout = {
         method: 'POST',
-        url: instance + path_logout,
+        uri: instance + path_logout,
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
-          'charset': 'UTF-8',
-          'User-Agent': 'Request-Promise'
+          'charset': 'UTF-8'
         },
         json: {},
         jar: cookiejar
@@ -72,10 +74,7 @@ function api(){
 
     var options_res = {
         uri: instance + '/api/activeCalls',
-        jar: cookiejar,
-        headers: {
-          'User-Agent': 'Request-Promise'
-        }
+        jar: cookiejar
     };
 
 
@@ -126,14 +125,14 @@ function api(){
 
             console.log('External call:' + ext_call);
             console.log('Internal call:' + int_call);
-            rp(options_req_logout)
-            .then(function (parsedBody_req_logout) {
+            // rp(options_req_logout)
+            // .then(function (parsedBody_req_logout) {
             
       
-            })
-            .catch(function (err) {
-                console.log(err.message)
-            });
+            // })
+            // .catch(function (err) {
+            //    console.log(err.message)
+            // });
 
             //console.log(parsedBody_res);
         })
@@ -145,11 +144,11 @@ function api(){
 
   })
   .catch(function (err) {
-    console.log(err.message);
+    console.log(err);
   }); 
 
 
-  setTimeout(api, 5000);
+  setTimeout(api, interval);
 
 
   }
